@@ -26,15 +26,19 @@ namespace SingleResponsibilityPrinciple
                 return false;
             }
 
-            int tradeAmount;
-            if (!int.TryParse(tradeData[1], out tradeAmount))
+            if (!int.TryParse(tradeData[1], out int tradeAmount))
             {
                 logger.LogWarning("Trade not a valid integer: '{0}'", tradeData[1]);
                 return false;
             }
 
-            decimal tradePrice;
-            if (!decimal.TryParse(tradeData[2], out tradePrice))
+            if (tradeAmount < 1000 || tradeAmount > 1000000)
+            {
+                logger.LogWarning("Trade amount out of range (1,000 - 1,000,000): '{0}'", tradeAmount);
+                return false;
+            }
+
+            if (!decimal.TryParse(tradeData[2], out decimal tradePrice))
             {
                 logger.LogWarning("Trade price not a valid decimal: '{0}'", tradeData[2]);
                 return false;
@@ -42,5 +46,6 @@ namespace SingleResponsibilityPrinciple
 
             return true;
         }
+
     }
 }
